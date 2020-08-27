@@ -1,0 +1,57 @@
+{% extends 'batch/def_temp.html' %}
+
+{% block content %}
+<h1 class="display-4">Add New Batch</h1>
+<form method="POST" enctype="multipart/form-data" id="batchForm" get-loc-url="{% url 'gpl' %}">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="bName">Name</label>
+    <input type="text" class="form-control" name="b_name" id="bName"  placeholder="Enter Batch Title." required>
+  </div>
+    <div class="form-group">
+    <label for="projectName">Select Project</label>
+    <select name="p_name" class="form-control" id="projectName" required>
+      <option value="">Select A Project ...</option>
+      {% for project in projects %}
+            <option value="{{ project }}">{{ project }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="bloc">Locations</label>
+    <select name="location" class="form-control" id="bloc" required>
+
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="sdec">Short Description</label>
+    <input type="text" class="form-control" id="sdec" name="sdec" placeholder="Short Note on Project.">
+  </div>
+  <div class="form-group">
+    <label for="dec">Description</label>
+    <textarea  type="text" class="form-control" id="dec" name="dec" placeholder="Short Note on Project."></textarea>
+  </div>
+    <div>
+        <input type="file" name ="batch_fn"  accept="zip,application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed" >
+
+        <small id="validatedCustomFile" class="form-text text-muted">Upload Folder of Multiple Images as *.zip.</small>
+
+    </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+  $("#projectName").change(function () { //On change of Project selection
+    const url = $("#batchForm").attr("get-loc-url"); //get the url of get project location from batchForm attribute get-loc-url
+    const projectID = $(this).val(); //get selected project value from HTML input
+    $.ajax({
+      url: url,
+      data: {'projectID': projectID},
+      success: function (result) {
+        $("#bloc").html(result);
+      }
+    });
+  });
+</script>
+
+{% endblock %}

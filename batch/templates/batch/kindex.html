@@ -1,0 +1,35 @@
+{% extends 'login/def_temp.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+			<div class="col-md-6">
+				<div class="card card-body">
+					<h5>Welcome To Thirukural Index</h5>
+				</div>
+				<div class="card card-body">
+					<table class="table">
+						<tr>
+							<th>#</th>
+							<th>அதிகாரம் - TAMIL</th>
+							<th>Titel-English</th>
+							<th>Chapter</th>
+							<th>Book</th>
+						</tr>
+
+						{% for i in kindex %}
+							<tr>
+								<td>{{i.chapter}}</td>
+								<td>{{i.t_tamil}}</td>
+								<td>{{i.t_english}}</td>
+								<td>{{i.get_c_group_display}}</td>
+								<td>{{i.get_pall_display}}</td>
+							</tr>
+						{% endfor %}
+						
+					</table>
+				</div>
+			</div>
+			
+		</div> 
+
+{% endblock %}

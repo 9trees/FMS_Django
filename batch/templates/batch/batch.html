@@ -1,0 +1,40 @@
+{% extends 'batch/def_temp.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+			<div class="col-md-6">
+				<div class="card card-body">
+                    <a href="{% url 'cbatch' %}" class="float-right btn btn-outline-primary">Create Batch</a>
+					<h5>List of Batches</h5>
+				</div>
+				<div class="card card-body">
+					<table class="table">
+						<tr>
+							<th>Date</th>
+							<th>Titel</th>
+							<th>Location</th>
+							<th>No. Images</th>
+							<th>Status</th>
+						</tr>
+
+						{% for bh in batchs %}
+							<tr>
+								<td>{{bh.created_at}}</td>
+								<td>{{bh.name}}</td>
+								<td>{{bh.location}}</td>
+								<td>{{bh.total_images}}</td>
+								{% if bh.batch_status == '2' %}
+									<td><a href="" type="button" class="btn btn-primary">Download</a></td>
+								{% else %}
+									<td>---</td>
+								{% endif %}
+							</tr>
+						{% endfor %}
+
+					</table>
+				</div>
+			</div>
+
+		</div>
+
+{% endblock %}

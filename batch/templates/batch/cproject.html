@@ -1,0 +1,40 @@
+{% extends 'batch/def_temp.html' %}
+
+{% block content %}
+<h1 class="display-4">Add New Project</h1>
+<form method="POST">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="pjtName">Name</label>
+    <input type="text" class="form-control" name="p_name" id="pjtName"  placeholder="Enter Project Title.">
+    <small id="pjtname" class="form-text text-muted">This project name will be ref in Batch related to them.</small>
+  </div>
+  <div class="form-group">
+    <!--<div class="form-group mx-sm-3 mb-2">
+      <input id="oneLoc" type="text" name="oneLoc" placeholder="Enter Location"/>
+      <button class="btn btn-primary mb-2" onclick="appfun()">Add Location</button>
+    </div>-->
+    <label for="pjtloc">Locations</label>
+    <input type="text" class="form-control" id="pjtloc" name="locations" placeholder="List of Project locations.">
+    <small id="pjtloc" class="form-text text-muted">Text should be comma separated. Eg: Minnesota-USA, Hyderabad-India</small>
+  </div>
+  <div class="form-group">
+    <label for="sample">Sample</label>
+    <select name="sample" class="form-control" id="sample" required>
+      <option value="">Select A Sample Type...</option>
+      <option value="okra">Okra</option>
+      <option value="chile">chile</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="sdec">Short Description</label>
+    <input type="text" class="form-control" id="sdec" name="sdec" placeholder="Short Note on Project.">
+  </div>
+  <div class="form-group">
+    <label for="dec">Description</label>
+    <textarea  type="text" class="form-control" id="dec" name="dec" placeholder="Short Note on Project."></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{% endblock %}

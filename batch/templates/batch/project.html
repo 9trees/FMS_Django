@@ -1,0 +1,36 @@
+{% extends 'batch/def_temp.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+			<div class="col-md-6">
+				<div class="card card-body">
+                    <a href="{% url 'cproject' %}" class="float-right btn btn-outline-primary">Create Project</a>
+					<h5>Projects</h5>
+				</div>
+				<div class="card card-body">
+					<table class="table">
+						<tr>
+							<th>Date</th>
+							<th>Titel</th>
+							<th>Locations</th>
+							<th>Sample Type</th>
+							<th>Note</th>
+						</tr>
+
+						{% for pjt in projects %}
+							<tr>
+								<td>{{pjt.created_at}}</td>
+								<td>{{pjt.name}}</td>
+								<td>{{pjt.locations}}</td>
+								<td>{{pjt.sample_type}}</td>
+								<td>{{pjt.short_description}}</td>
+							</tr>
+						{% endfor %}
+						
+					</table>
+				</div>
+			</div>
+			
+		</div> 
+
+{% endblock %}
