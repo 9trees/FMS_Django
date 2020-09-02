@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -8,7 +8,7 @@ from .forms import CrearUserForms
 from .models import *
 import os
 import zipfile
-
+import mimetypes
 
 # Create your views here.
 
@@ -22,7 +22,7 @@ def blogin(request):
             email = request.POST.get('email')
             password = request.POST.get('password')
             user = authenticate(request, username=email, password=password)
-            print(user)
+            #print(user)
             if user is not None:
                 print("done")
                 login(request, user)
@@ -108,7 +108,7 @@ def createBch(request):
             for f in files:
                 if f.endswith('.jpeg') or f.endswith('.JPG') or f.endswith('.jpg') or f.endswith('.png'):
                     im_files.append(os.path.join(root, f))
-        print(files, len(files))
+        #print(files, len(files))
         bform.total_images = len(im_files)
         bform.save()
         for file in files:
@@ -150,3 +150,21 @@ def get_project_location(request):
     loc_s = Project.objects.get(name=project_id).locations
     loc_s = loc_s.split(',')
     return render(request, 'batch/selectLoc.html', {'loc_s': loc_s})
+
+@login_required(login_url='index')
+def download_file(request, bh_name):
+    """Generating download file link for CSV."""
+    filename = "global.csv"
+    fl_path = os.path.join('static/data', str(request.user.id), bh_name, "output", filename)
+    #fl = open(fl_path, 'r’)
+    if os.path.exists(fl_path):
+        with open(fl_path, 'rb') as fl:
+            mime_type, _ = mimetypes.guess_type(fl_path)
+            response = HttpResponse(fl, content_type=mime_type)
+            response['Content-Disposition'] = "attachment; filename=%s" % filename
+            return response
+    raise Http404
+'''
+@login_required(login_url='index')
+def view_batch(request, bh_name):
+'''

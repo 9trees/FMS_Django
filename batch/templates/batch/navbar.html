@@ -14,12 +14,16 @@
       <li class="nav-item">
         <a class="nav-link" href="{% url 'batch' %}">Batch</a>
       </li>
-      <li class="nav-item">
+      <!--<li class="nav-item">
         <a class="nav-link" href="{% url 'index' %}">Login</a>
-      </li>
+      </li>-->
       
     </ul>
   </div>
   <span>Hello! </span>
-  <span class="text-dark"><a href = "{% url 'signout' %}">Logout</a></span>
+  <span class="text-dark"><a href = "{% url 'signout' %}">
+    <button type="button" class="btn btn-default btn-sm">
+          <span class="glyphicon glyphicon-log-out"></span> Log out
+    </button>
+  </a></span>
 </nav>
