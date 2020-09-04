@@ -11,4 +11,5 @@ urlpatterns = [
     path('cproject/', views.createPjt, name='cproject'),
     path('gpl/', views.get_project_location, name='gpl'),
     path('download_file/<str:bh_name>', views.download_file, name='download'),
+    path('view_batch/<str:bh_name>', views.view_batch, name='viewBach'),
 ]

@@ -7,6 +7,7 @@ from django.contrib import messages
 from .forms import CrearUserForms
 from .models import *
 import os
+import json
 import zipfile
 import mimetypes
 
@@ -114,7 +115,7 @@ def createBch(request):
         for file in files:
             bank = ImageBank()
             # print(request.scheme,'://',request.META.HTTP_HOST)
-            bank.URL = extracted_path + "/" + file
+            #bank.URL = extracted_path + "/" + file
             bank.file_name = file
             bank.batch = bform
             bank.save()
@@ -164,7 +165,23 @@ def download_file(request, bh_name):
             response['Content-Disposition'] = "attachment; filename=%s" % filename
             return response
     raise Http404
-'''
+
 @login_required(login_url='index')
 def view_batch(request, bh_name):
-'''
+    """Generate image list for rendering in batch view template"""
+    batch_name = bh_name
+    batch_name = Batch.objects.get(name=batch_name)
+    images = ImageBank.objects.filter(batch=batch_name)
+    for image in images:
+        #img_row = ImageBank.objects.get(request_id=image.request_id)
+        #image.URL = "data/" + str(request.user.id) + "/" + bh_name + "/" + "output/" + image.file_name
+        image.sample_details = json.loads(image.sample_details)
+    # list_of_images = []
+    # file_path = os.path.join('static/data', str(request.user.id), bh_name, "output")
+    # for root, dirs, files in os.walk(file_path):
+    #     for file in files:
+    #         if file.endswith('.jpeg') or file.endswith('.JPG') or file.endswith('.jpg') or file.endswith('.png'):
+    #             dir_string = "data/" + str(request.user.id) + "/" + bh_name + "/" + "output/" + file
+    #             list_of_images.append(dir_string)
+
+    return render(request, 'batch/batchView.html', {'images': images, 'batch_name': batch_name})

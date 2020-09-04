@@ -1,0 +1,81 @@
+{% extends 'batch/def_temp.html' %}
+{% load static %}
+{% block content %}
+<h1 class="display-4">Batch Name</h1>
+<div class="row">
+
+    <div class="col-sm-4">
+    <div class="card text-white bg-primary mb-3 text-center" style="max-width: 18rem;">
+    <div class="card-header">Project</div>
+      <div class="card-body">
+        <h5 class="card-title">{{ batch_name.project.name }}</h5>
+      </div>
+    </div>
+    </div>
+
+    <div class="col-sm-4">
+    <div class="card text-white bg-success mb-3 text-center" style="max-width: 18rem;">
+      <div class="card-header">Location</div>
+      <div class="card-body">
+        <h5 class="card-title">{{ batch_name.location }}</h5>
+      </div>
+    </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="card text-white bg-warning mb-3 text-center" style="max-width: 18rem;">
+          <div class="card-header">Total Images</div>
+          <div class="card-body">
+            <h5 class="card-title">{{ batch_name.total_images }}</h5>
+          </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <table class="table table-image text-center">
+            <thead>
+                <tr>
+                    <th scope="col">File Name</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Image Insight</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for image in images %}
+                <tr>
+                    <th scope="row">{{ image.file_name }}</th>
+                    <td class="w-25">
+<!--                        <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-3.jpg" class="img-fluid img-thumbnail" alt="Sheep">-->
+                        <img src="{% static image.URL %}" class="img-fluid img-thumbnail" alt="{{ image.file_name }}">
+                    </td>
+                    <td>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Color</th>
+                                <th scope="col">Diameter</th>
+                                <th scope="col">Length</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for row in image.sample_details %}
+                                <tr>
+                                    <th scope="row">{{ row.SID }}</th>
+                                    <td>{{ row.SCOL }}</td>
+                                    <td>{{ row.SDIA }}</td>
+                                    <td>{{ row.SLEN }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{% endblock %}

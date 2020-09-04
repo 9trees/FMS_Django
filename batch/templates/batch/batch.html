@@ -2,16 +2,17 @@
 
 {% block content %}
 <div class="row justify-content-center">
-			<div class="col-md-6">
+			<div class="col-md-12">
 				<div class="card card-body">
                     <a href="{% url 'cbatch' %}" class="float-right btn btn-outline-primary">Create Batch</a>
-					<h5>List of Batches</h5>
+					<h5 class="display-4">List of Batches</h5>
 				</div>
 				<div class="card card-body">
 					<table class="table">
 						<tr>
 							<th>Date</th>
 							<th>Titel</th>
+							<th>Project</th>
 							<th>Location</th>
 							<th>No. Images</th>
 							<th>Status</th>
@@ -21,10 +22,12 @@
 							<tr>
 								<td>{{bh.created_at}}</td>
 								<td>{{bh.name}}</td>
+								<td>{{bh.project}}</td>
 								<td>{{bh.location}}</td>
 								<td>{{bh.total_images}}</td>
 								{% if bh.batch_status == '2' %}
-									<td><a href="{% url 'download' bh.name %}" type="button" class="btn btn-primary">Download</a></td>
+<!--									<td><a href="{% url 'download' bh.name %}" type="button" class="btn btn-primary">Download</a></td>-->
+									<td><a href="{% url 'viewBach' bh.name %}" type="button" class="btn btn-primary">Detailed View</a></td>
 								{% else %}
 									<td>---</td>
 								{% endif %}
