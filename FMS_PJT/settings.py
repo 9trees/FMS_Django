@@ -26,8 +26,7 @@ SECRET_KEY = 'wp+(gma&vd&%qd(j_**b#6-vh3s2=nmjn=g%^2wm%9@0yubhw('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
