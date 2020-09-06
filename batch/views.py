@@ -105,18 +105,17 @@ def createBch(request):
             zip_ref.extractall(path + "/extracted/")
         im_files = []
 
-        for root, dirs, files in os.walk(extracted_path):
-            for f in files:
+        for f in os.listdir(extracted_path):
                 if f.endswith('.jpeg') or f.endswith('.JPG') or f.endswith('.jpg') or f.endswith('.png'):
-                    im_files.append(os.path.join(root, f))
+                    im_files.append(os.path.join(extracted_path, f))
         #print(files, len(files))
         bform.total_images = len(im_files)
         bform.save()
-        for file in files:
+        for file in im_files:
             bank = ImageBank()
             # print(request.scheme,'://',request.META.HTTP_HOST)
             #bank.URL = extracted_path + "/" + file
-            bank.file_name = file
+            bank.file_name = os.path.basename(file)
             bank.batch = bform
             bank.save()
         return redirect('batch')

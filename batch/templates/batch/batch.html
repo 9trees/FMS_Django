@@ -26,7 +26,7 @@
 								<td>{{bh.location}}</td>
 								<td>{{bh.total_images}}</td>
 								{% if bh.batch_status == '2' %}
-<!--									<td><a href="{% url 'download' bh.name %}" type="button" class="btn btn-primary">Download</a></td>-->
+									<td><a href="{% url 'download' bh.name %}" type="button" class="btn btn-primary">Download</a></td>
 									<td><a href="{% url 'viewBach' bh.name %}" type="button" class="btn btn-primary">Detailed View</a></td>
 								{% else %}
 									<td>---</td>

@@ -2,7 +2,7 @@
 
 {% block content %}
 <h1 class="display-4">Add New Batch</h1>
-<form method="POST" enctype="multipart/form-data" id="batchForm" get-loc-url="{% url 'gpl' %}">
+<form class="batch-form-group" method="POST" enctype="multipart/form-data" id="batchForm" get-loc-url="{% url 'gpl' %}">
   {% csrf_token %}
   <div class="form-group">
     <label for="bName">Name</label>
@@ -32,12 +32,20 @@
     <textarea  type="text" class="form-control" id="dec" name="dec" placeholder="Short Note on Project."></textarea>
   </div>
     <div>
-        <input type="file" name ="batch_fn"  accept="zip,application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed" >
+<!--        <input type="file" name ="batch_fn"  accept="zip,application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed" >-->
+        <div class="custom-file">
+          <input type="file" name ="batch_fn" class="custom-file-input" id="customFile">
+          <label id="customFileLabel" class="custom-file-label" for="customFile">Choose a zip file...</label>
+        </div>
 
         <small id="validatedCustomFile" class="form-text text-muted">Upload Folder of Multiple Images as *.zip.</small>
 
+      <div class="progress mb-3 mt-3 d-none">
+        <div id="progressBarId" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+      </div>
+
     </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button id="formSubmit" type="submit" class="btn btn-primary">Submit</button>
 </form>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script>
@@ -52,6 +60,21 @@
       }
     });
   });
+</script>
+<script>
+  document.querySelector('.custom-file-input').addEventListener('change',function(e){
+    var fileName = document.getElementById("customFile").files[0].name;
+    var nextSibling = document.getElementById("customFileLabel")//e.target.nextElementSibling
+    nextSibling.innerText = fileName
+  })
+</script>
+<script>
+  var form_submit = document.getElementById("formSubmit");
+  form_submit.addEventListener('progress', function(evt){
+      if (evt.lengthComputable) {
+        console.log("add upload event-listener" + evt.loaded + "/" + evt.total);
+      }
+    }, false)
 </script>
 
 {% endblock %}

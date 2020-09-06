@@ -1,7 +1,7 @@
 {% extends 'batch/def_temp.html' %}
 {% load static %}
 {% block content %}
-<h1 class="display-4">Batch Name</h1>
+<h1 class="display-4">{{ batch_name.name }}</h1>
 <div class="row">
 
     <div class="col-sm-4">
@@ -54,8 +54,8 @@
                                 <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Color</th>
-                                <th scope="col">Diameter</th>
-                                <th scope="col">Length</th>
+                                <th scope="col">Length<p class="font-italic">(mm)</p></th>
+                                <th scope="col">Diameter<p class="font-italic">(mm)</p></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -63,8 +63,8 @@
                                 <tr>
                                     <th scope="row">{{ row.SID }}</th>
                                     <td>{{ row.SCOL }}</td>
-                                    <td>{{ row.SDIA }}</td>
                                     <td>{{ row.SLEN }}</td>
+                                    <td>{{ row.SDIA }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>
