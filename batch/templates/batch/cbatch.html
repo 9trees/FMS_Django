@@ -40,8 +40,11 @@
 
         <small id="validatedCustomFile" class="form-text text-muted">Upload Folder of Multiple Images as *.zip.</small>
 
-      <div class="progress mb-3 mt-3 d-none">
+      <!--<div class="progress mb-3 mt-3 d-none">
         <div id="progressBarId" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+      </div>-->
+      <div id="ppb">
+
       </div>
 
     </div>
@@ -69,12 +72,74 @@
   })
 </script>
 <script>
-  var form_submit = document.getElementById("formSubmit");
-  form_submit.addEventListener('progress', function(evt){
-      if (evt.lengthComputable) {
-        console.log("add upload event-listener" + evt.loaded + "/" + evt.total);
-      }
-    }, false)
+
+    //$(document).ready(function() {
+        //$( "#batchForm" ).submit(function( event ) {
+        document.querySelector('form.batch-form-group').addEventListener('submit', function(event) {
+          event.preventDefault();
+          console.log("001");
+
+          var post_data = new FormData($("#batchForm")[0]);
+          console.log(post_data);
+
+          $.ajax({
+              xhr: function() {
+                console.log("inside ajax");
+                var xhr = new window.XMLHttpRequest();
+                var new_div = document.createElement('div');
+                console.log("after xhr");
+                new_div.innerHTML = '<progress id="progressBar" value="0" max="100" style="width:300px;"></progress><h3 id="status"></h3><p id="loaded_n_total"></p>';
+                document.getElementById("ppb").appendChild(new_div)
+                console.log("after append child");
+                xhr.upload.addEventListener("progress", progressHandler, false);
+                xhr.addEventListener("load", completeHandler, false);
+                xhr.addEventListener("error", errorHandler, false);
+                xhr.addEventListener("abort", abortHandler, false);
+                console.log("before return");
+
+                return xhr;
+              },
+                url: "#",//"{% url 'cbatch' %}", //window.location.href, // to allow add and edit
+                type: "POST",
+                data: post_data,
+                processData: false,
+                contentType: false,
+                success: function(result) {
+                    console.log("003");
+                    window.location.replace("{% url 'batch' %}");
+              }
+            });
+        })
+    //});
+
+function _(el) {
+  return document.getElementById(el);
+}
+
+function progressHandler(event) {
+  _("loaded_n_total").innerHTML = "Uploaded " + event.loaded + " bytes of " + event.total;
+  var percent = (event.loaded / event.total) * 100;
+  _("progressBar").value = Math.round(percent);
+  _("status").innerHTML = Math.round(percent) + "% uploaded... please wait";
+  console.log("from_progressHandler");
+}
+
+function completeHandler(event) {
+  _("status").innerHTML = event.target.responseText;
+  _("progressBar").value = 0; //wil clear progress bar after successful upload
+  console.log("from_completeHandler");
+}
+
+function errorHandler(event) {
+  _("status").innerHTML = "Upload Failed";
+  console.log("from_errorHandler");
+
+}
+
+function abortHandler(event) {
+  _("status").innerHTML = "Upload Aborted";
+  console.log("from_abortHandler");
+}
 </script>
 
 {% endblock %}
